@@ -1,0 +1,112 @@
+{
+    "name": "nyc_taxi_2016_table",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "azuron-WorkspaceDefaultSqlServer",
+            "type": "LinkedServiceReference",
+            "parameters": {
+                "DBName": "AZURON"
+            }
+        },
+        "annotations": [],
+        "type": "AzureSqlDWTable",
+        "schema": [
+            {
+                "name": "vendor_id",
+                "type": "nvarchar"
+            },
+            {
+                "name": "pickup_datetime",
+                "type": "datetime2",
+                "scale": 7
+            },
+            {
+                "name": "dropoff_datetime",
+                "type": "datetime2",
+                "scale": 7
+            },
+            {
+                "name": "passenger_count",
+                "type": "bigint",
+                "precision": 19
+            },
+            {
+                "name": "trip_distance",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "pickup_longitude",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "pickup_latitude",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "rate_code",
+                "type": "bigint",
+                "precision": 19
+            },
+            {
+                "name": "store_and_fwd_flag",
+                "type": "nvarchar"
+            },
+            {
+                "name": "dropoff_longitude",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "dropoff_latitude",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "payment_type",
+                "type": "nvarchar"
+            },
+            {
+                "name": "fare_amount",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "extra",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "mta_tax",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "tip_amount",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "tolls_amount",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "imp_surcharge",
+                "type": "float",
+                "precision": 15
+            },
+            {
+                "name": "total_amount",
+                "type": "float",
+                "precision": 15
+            }
+        ],
+        "typeProperties": {
+            "schema": "new_york",
+            "table": "tlc_yellow_trips_2016"
+        }
+    }
+}

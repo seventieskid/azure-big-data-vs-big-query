@@ -1,0 +1,109 @@
+{
+    "name": "taxis",
+    "properties": {
+        "type": "MappingDataFlow",
+        "typeProperties": {
+            "sources": [
+                {
+                    "dataset": {
+                        "referenceName": "nyc_taxi_2016_csv_xyz",
+                        "type": "DatasetReference"
+                    },
+                    "name": "taxidatacsv"
+                }
+            ],
+            "sinks": [
+                {
+                    "dataset": {
+                        "referenceName": "nyc_taxi_2016_table_xyz",
+                        "type": "DatasetReference"
+                    },
+                    "name": "taxidatatab"
+                }
+            ],
+            "transformations": [],
+            "scriptLines": [
+                "source(output(",
+                "          vendor_id as string,",
+                "          pickup_datetime as string,",
+                "          dropoff_datetime as string,",
+                "          passenger_count as string,",
+                "          trip_distance as string,",
+                "          pickup_longitude as string,",
+                "          pickup_latitude as string,",
+                "          rate_code as string,",
+                "          store_and_fwd_flag as string,",
+                "          dropoff_longitude as string,",
+                "          dropoff_latitude as string,",
+                "          payment_type as string,",
+                "          fare_amount as string,",
+                "          extra as string,",
+                "          mta_tax as string,",
+                "          tip_amount as string,",
+                "          tolls_amount as string,",
+                "          imp_surcharge as string,",
+                "          total_amount as string",
+                "     ),",
+                "     allowSchemaDrift: false,",
+                "     validateSchema: false,",
+                "     limit: 100,",
+                "     ignoreNoFilesFound: false) ~> taxidatacsv",
+                "taxidatacsv sink(allowSchemaDrift: false,",
+                "     validateSchema: false,",
+                "     input(",
+                "          vendor_id as string,",
+                "          pickup_datetime as timestamp,",
+                "          dropoff_datetime as timestamp,",
+                "          passenger_count as long,",
+                "          trip_distance as double,",
+                "          pickup_longitude as double,",
+                "          pickup_latitude as double,",
+                "          rate_code as long,",
+                "          store_and_fwd_flag as string,",
+                "          dropoff_longitude as double,",
+                "          dropoff_latitude as double,",
+                "          payment_type as string,",
+                "          fare_amount as double,",
+                "          extra as double,",
+                "          mta_tax as double,",
+                "          tip_amount as double,",
+                "          tolls_amount as double,",
+                "          imp_surcharge as double,",
+                "          total_amount as double",
+                "     ),",
+                "     deletable:false,",
+                "     insertable:true,",
+                "     updateable:false,",
+                "     upsertable:false,",
+                "     format: 'table',",
+                "     staged: true,",
+                "     allowCopyCommand: true,",
+                "     skipDuplicateMapInputs: true,",
+                "     skipDuplicateMapOutputs: true,",
+                "     errorHandlingOption: 'stopOnFirstError',",
+                "     mapColumn(",
+                "          vendor_id,",
+                "          pickup_datetime,",
+                "          dropoff_datetime,",
+                "          passenger_count,",
+                "          trip_distance,",
+                "          pickup_longitude,",
+                "          pickup_latitude,",
+                "          rate_code,",
+                "          each(match(name == 'store_and_fwd_flag'),",
+                "               iif($$==\"true\", \"Y\", \"N\") = $$),",
+                "          dropoff_longitude,",
+                "          dropoff_latitude,",
+                "          payment_type,",
+                "          fare_amount,",
+                "          extra,",
+                "          mta_tax,",
+                "          tip_amount,",
+                "          tolls_amount,",
+                "          imp_surcharge,",
+                "          total_amount",
+                "     )) ~> taxidatatab"
+            ]
+        }
+    }
+}
