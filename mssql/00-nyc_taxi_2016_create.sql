@@ -1,7 +1,7 @@
 -- DROP TABLE new_york.tlc_yellow_trips_2016;
 -- DROP SCHEMA new_york;
 
---CREATE SCHEMA new_york;
+CREATE SCHEMA new_york;
 
 CREATE TABLE new_york.tlc_yellow_trips_2016
 ( 
