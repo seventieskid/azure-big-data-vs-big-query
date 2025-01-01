@@ -25,7 +25,7 @@ CREATE TABLE new_york.tlc_yellow_trips_2016
 )
 WITH
 (
-	DISTRIBUTION = ROUND_ROBIN,
-	CLUSTERED COLUMNSTORE INDEX
+	DISTRIBUTION = ROUND_ROBIN,  --https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-tables-distribute
+	CLUSTERED COLUMNSTORE INDEX  --https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-tables-index
 )
 GO
