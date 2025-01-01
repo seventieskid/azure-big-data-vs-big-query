@@ -5,7 +5,7 @@ CREATE SCHEMA new_york;
 
 CREATE TABLE new_york.tlc_yellow_trips_2016
 ( 
-	[vendor_id] [nvarchar](max)  NULL,
+	[vendor_id] [nvarchar]  NULL,
 	[pickup_datetime] [datetime2]  NULL,
 	[dropoff_datetime] [datetime2]  NULL,
 	[passenger_count] [bigint]  NULL,
@@ -13,10 +13,10 @@ CREATE TABLE new_york.tlc_yellow_trips_2016
 	[pickup_longitude] [float]  NULL,
 	[pickup_latitude] [float]  NULL,
 	[rate_code] [bigint]  NULL,
-	[store_and_fwd_flag] [nvarchar](max)  NULL,
+	[store_and_fwd_flag] [nvarchar]  NULL,
 	[dropoff_longitude] [float]  NULL,
 	[dropoff_latitude] [float]  NULL,
-	[payment_type] [nvarchar](max)  NULL,
+	[payment_type] [nvarchar]  NULL,
 	[fare_amount] [float]  NULL,
 	[extra] [float]  NULL,
 	[mta_tax] [float]  NULL,
