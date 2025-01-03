@@ -19,13 +19,13 @@ SELECT *,
     CONCAT(CAST(YEAR(pickup_datetime) as VARCHAR),'-',CAST(MONTH(pickup_datetime) AS VARCHAR)) as pickup_yearmonth,
     CAST(pickup_datetime AS date) as pickup_date,
     FORMAT(CAST(pickup_datetime AS date), 'dddd') as pickup_weekday_name,
-    DATEPART(YEAR, pickup_datetime) as pickup_hour,
+    DATEPART(HOUR, pickup_datetime) as pickup_hour,
     YEAR(dropoff_datetime) as dropoff_year,
     MONTH(dropoff_datetime) as dropoff_month,
     CONCAT(CAST(YEAR(dropoff_datetime) as VARCHAR),'-',CAST(MONTH(dropoff_datetime) AS VARCHAR)) as dropoff_yearmonth,
     CAST(dropoff_datetime AS date) as dropoff_date,
     FORMAT(CAST(dropoff_datetime AS date), 'dddd') as dropoff_weekday_name,
-    DATEPART(YEAR, dropoff_datetime) as dropoff_hour
+    DATEPART(HOUR, dropoff_datetime) as dropoff_hour
 FROM [new_york].[tlc_yellow_trips_2016]
 /* filter by latitude & longitude that are within the correct range */
 WHERE 

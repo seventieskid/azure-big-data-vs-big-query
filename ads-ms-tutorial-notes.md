@@ -283,6 +283,8 @@ Complex Query Testing
 Big Query (Interactive)
 -----------------------
 
+NYC_TAXI_DATA_COMPLETE QUERY
+
 Measured time: 20.359secs
 Elapsed time: 18 secs
 Slot time consumed: 39min 21 secs
@@ -305,28 +307,26 @@ DW200c (concurrency=8, min%perrequest=12.5, cost=3.02 USD/hour) - 499690 ms
 DW1000c (concurrency=32, min%perrequest=3, cost=15.10 USD/hour) - 515800 ms
 DW7500c (concurrency=128, min%perrequest=0.75, cost=113.25 USD/hour) - 479877 / 484780 ms
 
+EXPENSIVE !!!
+
 Azure Synapse Analytics Spark Severless Pool
 --------------------------------------------
 
-Seems like a consistent 240TB limit per dedicated node pool
+No storage limit, because we're on Azure Datalake Storage Gen 2
 
-Approx time to scale (DW100c to DW200c)= 4mins 20secs
-Approx time to scale (DW200c to DW1000c)= 3mins 12secs
-Approx time to scale (DW1000c to DW7500c)= 6mins 01secs
-
-Approx time to scale down (DW7500c to DW100c)= ??mins ??secs
+3min 48secs to spin up spark session (all test results EXCLUDE spark session startup time)
 
 (All tests run directly in portal)
-
-3 x Small (4 vCores, 32GB) 
-
-(Beyond 3, will need a total regional vcpu increase from 12 to 40)
 
 Autoscale = OFF
 Dynamically allocate executors = OFF
 Intelligent cache size = OFF
-Cost 6.18 US/hour
+Load, create table, query
 
-pyspark load time = 5 min 18 secs 
+(Beyond 3, will need a total regional vcpu increase from 12 to 40)
 
-Elapsed time = ?? ms
+
+Size tests :-
+
+3 x Medium (4 vCores, 32GB) - Cost 1.85 US/hour - 258332ms, 316027ms
+
