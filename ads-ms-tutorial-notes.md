@@ -285,7 +285,7 @@ Big Query (Interactive)
 
 NYC_TAXI_DATA_COMPLETE QUERY
 
-Measured time: 20.359secs
+Measured time in code: 20.359secs (consistently around this mark, no matter how many times we run it)
 Elapsed time: 18 secs
 Slot time consumed: 39min 21 secs
 
@@ -314,6 +314,8 @@ Azure Synapse Analytics Spark Severless Pool
 
 No storage limit, because we're on Azure Datalake Storage Gen 2
 
+Spark session management is an additional overhead, because it does hold vCPU quotas. So it needs consideration and management.
+
 3min 48secs to spin up spark session (all test results EXCLUDE spark session startup time)
 
 (All tests run directly in portal)
@@ -321,12 +323,24 @@ No storage limit, because we're on Azure Datalake Storage Gen 2
 Autoscale = OFF
 Dynamically allocate executors = OFF
 Intelligent cache size = OFF
-Load, create table, query
+3 x Medium (4 vCores, 32GB) - Cost 1.85 US/hour (minimum size pool)
 
 (Beyond 3, will need a total regional vcpu increase from 12 to 40)
 
+Load and table creation time (one off):-
 
-Size tests :-
+245890ms
 
-3 x Medium (4 vCores, 32GB) - Cost 1.85 US/hour - 258332ms, 316027ms
+Query only:-
 
+21491ms
+4617ms
+8874ms
+3062ms
+2905ms
+2991ms
+2963ms
+3018ms
+3070ms
+2960ms
+2907ms
