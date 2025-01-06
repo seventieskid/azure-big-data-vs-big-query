@@ -344,3 +344,66 @@ Query only:-
 3070ms
 2960ms
 2907ms
+
+Cheap - incurred £4.71 for all dedicated spark pool testing on ASA.
+Expensieve - £200 for all dedicated SQL pool testing on ASA.
+
+HD Insights Interactive Query (aka Apache Hive LLAP - Low Latency Analytics Processing)
+---------------------------------------------------------------------------------------
+
+General observations...
+
+- Very little integration with Azure. It feels totally like a complex OSS stack running on top of something (Azure)
+
+- Feels clunky. Took 49 mins to complete the deployment process successfully using the ARM template.
+
+- Only a few minutes to delete. Which makes me think it's not really deleting what it created fully. Check costs tomorrow :)
+
+- Creates a complex file system in Azure gen2 storage, even before the data gets loaded.
+
+
+Setup storage acccount
+
+  - See https://learn.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-use-data-lake-storage-gen2-portal
+  - Call it say "azuronhdinsight"
+  - Under Advanced tab - Enabled next to Hierarchical namespace under Data Lake Storage Gen2.
+  - Create user managed identity
+  - Assign "Storage Blob Data Owner" scoped to "azuronhdinsight"
+
+Cluster type: Interactive Query
+
+A LOT of configuration options, which amounts to a complex infra solution
+
+Node automatic recommendations (7.84USD per hour):
+
+Head node: D13 v2 (8 Cores 56 GB RAM) - 2 OFF     (needs StandardDV2Family quota increase 0 to 16 - 8 x 2)
+Zookeeper node: A2 v2 (2 Cores 4GB RAM) - 3 OFF   (needs StandardAV2Family quota increase 0 to 6 - 2 x 3)
+Worker node: D14 v2 (16 Cores 112GB RAM) - 4 OFF  (needs StandardDV2Family quota increase 0 to 64 - 16 x 4)
+
+In the end (because of a delay on the A2 quota approval) went with (3.43USD per hour):
+
+Head node: D13 v2 (8 Cores 56 GB RAM) - 2 OFF     (needs StandardDV2Family quota increase 0 to 16 - 8 x 2)
+Zookeeper node: D2 v2 (2 Cores 7GB RAM) - 3 OFF   (needs StandardDV2Family quota increase 0 to 6 - 2 x 3)
+Worker node: D14 v2 (16 Cores 112GB RAM) - 1 OFF  (needs StandardDV2Family quota increase 0 to 16 - 16 x 1)
+
+StandardDV2Family quota increase to 0 to 38
+
+This is gonna cost a lot and there's no abilty to PAUSE when it's not in use; billing is per minute, until the cluster is deleted.
+
+https://azuron.azurehdinsight.net
+
+Follow this tutorial, but for taxi data instead:-
+
+https://learn.microsoft.com/en-us/azure/hdinsight/interactive-query/interactive-query-tutorial-analyze-flight-data
+
+SSH into head node
+ssh sshuser@azuron-ssh.azurehdinsight.net
+
+
+Setup VS Code to run queries on cluster....
+
+(Extension only as 55K downloads, so not heavily used at all)
+
+https://github.com/MicrosoftDocs/azure-docs/blob/main/articles/hdinsight/hdinsight-for-vscode.md
+
+Cmd + Shift + P --> Link Cluster --> AzureHDInsights --> https://azuron-ssh.azurehdinsight.net --> Hive
