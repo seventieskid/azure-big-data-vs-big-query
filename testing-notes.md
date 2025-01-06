@@ -332,7 +332,7 @@ Load and table creation time (one off), assuming data is already on Azure Storag
 
 245890ms
 
-Query only:-
+Query only (may be skewed by number of rows being return being truncated ??????)
 
 21491ms
 4617ms
