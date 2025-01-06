@@ -437,7 +437,7 @@ Zookeeper node: D2 v2 (2 Cores 7GB RAM) - 3 OFF   (needs StandardDV2Family quota
 Worker node: D14 v2 (16 Cores 112GB RAM) - 1 OFF  (needs StandardDV2Family quota increase 0 to 16 - 16 x 1)
 
 Time to create was 21 mins
-Time to destroy was ??
+Time to destroy was 2 mins
 
 https://azuron.azurehdinsight.net/jupyter (or from Azure HDI landing page)
 
