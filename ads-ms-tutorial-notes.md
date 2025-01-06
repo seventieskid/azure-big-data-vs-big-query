@@ -361,6 +361,7 @@ General observations...
 
 - Creates a complex file system in Azure gen2 storage, even before the data gets loaded.
 
+- Took a whole working day just to get a cluster created !!
 
 Setup storage acccount
 
