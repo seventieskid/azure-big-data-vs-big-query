@@ -396,14 +396,4 @@ Follow this tutorial, but for taxi data instead:-
 
 https://learn.microsoft.com/en-us/azure/hdinsight/interactive-query/interactive-query-tutorial-analyze-flight-data
 
-SSH into head node
-ssh sshuser@azuron-ssh.azurehdinsight.net
-
-
-Setup VS Code to run queries on cluster....
-
-(Extension only as 55K downloads, so not heavily used at all)
-
-https://github.com/MicrosoftDocs/azure-docs/blob/main/articles/hdinsight/hdinsight-for-vscode.md
-
-Cmd + Shift + P --> Link Cluster --> AzureHDInsights --> https://azuron-ssh.azurehdinsight.net --> Hive
+(Very tricky to apply to ny taxi data though)
