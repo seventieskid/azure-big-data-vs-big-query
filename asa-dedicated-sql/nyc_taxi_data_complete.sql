@@ -6,7 +6,7 @@ DECLARE @StartTime AS datetime2;
 SET @StartTime = CURRENT_TIMESTAMP;
 
 SELECT 
-    t.*
+    COUNT(*)
 FROM
 (
 SELECT *,
