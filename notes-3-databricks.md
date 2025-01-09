@@ -27,6 +27,8 @@ General Observations
 
 - Looks like Google data source ingestion goes via a crew called Fivetran. No use.
 
+- All tables are delta tables
+
 Create Azure Storage Account
 ----------------------------
 
