@@ -1,0 +1,27 @@
+{
+    "id": "28e788bf-dae7-4060-8a0e-e3c359a51b91",
+    "pipeline_type": "WORKSPACE",
+    "clusters": [
+        {
+            "label": "default",
+            "node_type_id": "Standard_DS13_v2",
+            "num_workers": 1
+        }
+    ],
+    "development": true,
+    "continuous": false,
+    "channel": "CURRENT",
+    "photon": true,
+    "libraries": [
+        {
+            "notebook": {
+                "path": "/Users/grees@azuron.co.uk/spark-delta-nyc-taxis-2016"
+            }
+        }
+    ],
+    "name": "spark-delta-nyc-taxis-2016",
+    "edition": "ADVANCED",
+    "catalog": "azuron_1942372571023859",
+    "target": "default",
+    "data_sampling": false
+}

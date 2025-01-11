@@ -46,6 +46,8 @@ Somewhere to Store the Data - Create Azure Storage Account
 A Means To Access The Data from Databricks - Use Managed Identity to Control Access from Databricks to Your Storage Account
 ----------------------------------------------------------------------------------------------------------------------------
 
+This is important and used in all variations apart from the simple spark based load.
+
 https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/azure-managed-identities
 
 - Create Managed Identity, "azuron-databricks"
@@ -71,8 +73,8 @@ Storage credential: (from drop down) azuron-databricks
 
 "TEST CONNECTION" BUTTON TO PROVE IT WORKS
 
-Test Cluster Compute - Processing Data Directly From Azure Data Lake Storage Gen2
----------------------------------------------------------------------------------
+Cluster Exists Variant 1 - Processing Data Directly From Azure Data Lake Storage Gen2
+--------------------------------------0--------------------------------------------
 
 A cluster is somewhere to run stuff only. It's processing power, that's all. It's not the same thing as the "Databricks SQL Warehouse" option.
 
@@ -95,6 +97,8 @@ Load data - 2.16 mins - fastest of all platforms so far
 
 Spark queries:-
 
+Run databricks/cluster/spark_load_and_query.ipynb
+
 Row count: 69295971
 
 25174ms
@@ -106,7 +110,7 @@ Row count: 69295971
 
 Av. 22341ms
 
-Test #2 - Standard_DS14_V2 (16 Cores 112GB RAM) - 1 OFF  
+Test #2 - Standard_DS14_V2 (16 Cores 112GB RAM) - 1 OFF  - 8 DBU/h
 
 (needs StandardDV2Family quota increase 0 to 16 - 16 x 1)  - comparable with compute from other Azure Big Data tests
 
@@ -117,6 +121,8 @@ Test results:-
 Load data - ?? mins - fastest of all platforms so far
 
 Spark queries:-
+
+Run databricks/cluster/spark_load_and_query.ipynb
 
 Row count: 69295971
 
@@ -132,22 +138,117 @@ Av. 17023ms
 **** Looks like it's very responsive to more CPU/memory
 
 
-Serverless Starter Warehouse Variant
-------------------
+Notebook Variant 2 - With Auto Loader and Delta Live Tables
+---------------------------------------------------------
 
-https://learn.microsoft.com/en-us/azure/databricks/delta-live-tables/load#load-files-from-cloud-object-storage
+https://learn.microsoft.com/en-us/azure/databricks/ingestion/cloud-object-storage/onboard-data
 
-Manually load data to storage....
+- Ensure data is already loaded into Azure Data Lake Gen 2 directory:-
 
-- Create directory nyc_taxi_2016
-- Create a schema: Catalog --> azuron --> Create --> new_york --> azuron-datbricks (external connection) --> nyc_taxi_2016 (directory)
-- Load CSV files like this....
+e.g. abfss://users@azuron.dfs.core.windows.net/nyc-taxis-2016/*
 
-??
+- Don't need a cluster, one will be auto created to process the notebook
 
-Data Warehouse Variant
+- Create external location, and credential using MSI - instructions are above. This gives access from Databricks to Azure storage account
+
+Check connection:-
+
+New --> Notebook - spark-delta-nyc-taxis-2016 - Save ()
+
+(content from databricks/cluster/spark-delta-nyc-taxis-2016.ipynb)
+
+This cannot be run from a notebook, it gives syntax errors, it must be run from a pipeline, see below.
+
+Worflows --> Delta Live Tables --> Create Pipeline
+
+    - content from databricks/cluster/spark-from-cluster.pipeline
+
+    - 10 DBU/h
+
+    - Run the pipeline to create and load the table into the catalog
+
+    - Seems to be just another way of loading a delta tables into the catalog, so loading time comparisons are relevant, but not query times.
+
+    - This will create a compute cluster on-the-fly for the job to use in your Azure subscription. YOU CANNOT POINT TO AN EXISTING CLUSTER. That could prove costly and quota heavy.
+
+    - Seems to always create a multi-node cluster, can't choose a single node option (2 x VMs minimum)
+
+    - Pipeline takes 14 mins to run, including spinning up the compute cluster and loading the data. Looks like it took 3m 49secs to load the table, which is slow compared to other variants.
+
+    - Nice pipeline statistics though in the UI.
+
+    - VMs created by the pipeline seem to linger, with no obvious way to delete them - disappear after 10 mins
+
+    - All fields have been created as type strings in the delta table. That's not really any good for us. i.e. Pipeline are not as clever as a streaming table creation mechanism below.
+
+
+Data Warehouse Variant - With Auto Loader and Delta Live Tables
+----------------------------------------------------------------
+
+- Nice SQL user interface with great performance statistics
+
+See https://learn.microsoft.com/en-us/azure/databricks/tables/streaming
+
+- Start "Serverless Starter Warehouse" - default Small (12 DBU/h)
+
+- Create external location, and credential using MSI - instructions are above. This gives access from Databricks to Azure storage account
+
+- SQL Editor LIST 'abfss://users@azuron.dfs.core.windows.net/nyc-taxis-2016/'
+
+- Load data run databricks/sql_warehouse/load_streaming_tables.sql
+
+Table created in 4mins 41 secs
+
+- In SQL Editor, check row count (get path from catalog right click):-
+
+SELECT COUNT(*) FROM azuron_1942372571023859.default.nyc_taxis_2016;
+
+- Run your complex query (replace table path with the above):-
+
+run databricks/sql_warehouse/nyc_taxi_data_complete.sql through a SMALL serverless sql warehouse
+
+Returned count - 69295945
+
+Speeds read of ui...
+
+1040ms
+990ms
+1035ms
+988ms
+982ms
+977ms
+
+Av. 1002ms
+
+Lots and lots of servless data warehouses sizing options - lots (4 DBU/h - 528 DBu/h)
+
+It also turns off after 10 mins by default. Is truely serverless - can't see anything on the Azure subscription.
+
+Spark PYTHON on data loaded into streaming tables but through a compute cluster, not a serverless sql warehouse
 -----------------------
 
-- Tried serverless
+run databricks/sql_warehouse/spark_pytho_query.ipynb
 
-How about trying ingestion directly from GCS ?
+>>> first 27622ms
+5886ms
+4774ms
+4479ms
+4576ms
+4311ms
+4281ms
+
+av. 4717ms
+
+Spark SQL on data loaded into streaming tables but through a compute cluster, not a serverless sql warehouse
+-----------------------
+
+run databricks/sql_warehouse/spark_sql_query.ipynb
+
+276ms
+335ms
+288ms
+273ms
+281ms
+778ms
+
+av. 372ms   << the absolute fastest of all big data tech and variations

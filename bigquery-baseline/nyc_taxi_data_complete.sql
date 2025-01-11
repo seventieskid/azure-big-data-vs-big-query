@@ -5,7 +5,7 @@ DECLARE StartTime timestamp;
 SET StartTime = (SELECT CURRENT_TIMESTAMP());
 
 SELECT 
-    t.*
+    COUNT(*)
 FROM
 (
 SELECT *,
