@@ -138,8 +138,8 @@ Av. 17023ms
 **** Looks like it's very responsive to more CPU/memory
 
 
-Notebook Variant 2 - With Auto Loader and Delta Live Tables
----------------------------------------------------------
+Notebook Variant 2 - Using Databricks Pipeline into Unity Catalog - BAD
+-----------------------------------------------------------------------
 
 https://learn.microsoft.com/en-us/azure/databricks/ingestion/cloud-object-storage/onboard-data
 
@@ -182,8 +182,8 @@ Worflows --> Delta Live Tables --> Create Pipeline
     - All fields have been created as type strings in the delta table. That's not really any good for us. i.e. Pipeline are not as clever as a streaming table creation mechanism below.
 
 
-Data Warehouse Variant - With Auto Loader and Delta Live Tables
-----------------------------------------------------------------
+Data Warehouse Variant - With Auto Loader and Delta Live Tables - GOOD
+----------------------------------------------------------------------
 
 - Nice SQL user interface with great performance statistics
 
@@ -203,9 +203,16 @@ Table created in 4mins 41 secs
 
 SELECT COUNT(*) FROM azuron_1942372571023859.default.nyc_taxis_2016;
 
-- Run your complex query (replace table path with the above):-
+Test 1:
+--------
 
-run databricks/sql_warehouse/nyc_taxi_data_complete.sql through a SMALL serverless sql warehouse
+Query Type: SQL Editor UI
+Data Catalog: Unity
+Table Type: Delta
+Queried Through: SQL Warehouse
+SQL Warehouse: Serverless Small
+
+run databricks/sql_warehouse/nyc_taxi_data_complete.sql
 
 Returned count - 69295945
 
@@ -224,10 +231,16 @@ Lots and lots of servless data warehouses sizing options - lots (4 DBU/h - 528 D
 
 It also turns off after 10 mins by default. Is truely serverless - can't see anything on the Azure subscription.
 
-Spark PYTHON on data loaded into streaming tables but through a compute cluster, not a serverless sql warehouse
------------------------
+Test 2:
+--------
 
-run databricks/sql_warehouse/spark_pytho_query.ipynb
+Query Type: Spark Python Notebook
+Data Catalog: Unity
+Table Type: Delta
+Queried Through: Compute Cluster
+SQL Warehouse: Serverless Small
+
+run databricks/sql_warehouse/spark_python_query.ipynb
 
 >>> first 27622ms
 5886ms
@@ -239,10 +252,18 @@ run databricks/sql_warehouse/spark_pytho_query.ipynb
 
 av. 4717ms
 
-Spark SQL on data loaded into streaming tables but through a compute cluster, not a serverless sql warehouse
------------------------
+Test 3:
+--------
+
+Query Type: Spark SQL Notebook
+Data Catalog: Unity
+Table Type: Delta
+Queried Through: Compute Cluster
+SQL Warehouse: Serverless Small
 
 run databricks/sql_warehouse/spark_sql_query.ipynb
+
+>>> first 8062ms
 
 276ms
 335ms

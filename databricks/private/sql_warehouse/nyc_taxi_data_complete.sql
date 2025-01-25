@@ -26,7 +26,7 @@ SELECT *,
     DATE_FORMAT(dropoff_datetime, "yyyyMMdd") as dropoff_date,
     DATE_FORMAT(dropoff_datetime, "EEEE") as dropoff_weekday_name,
     DATE_FORMAT(dropoff_datetime, "hh") as dropoff_hour
-FROM azuron_1942372571023859.default.nyc_taxis_2016
+FROM azuron_custom.new_york.tlc_yellow_trips_2016
 /* filter by latitude & longitude that are within the correct range */
 WHERE 
   ((pickup_latitude BETWEEN -90 AND 90) AND
