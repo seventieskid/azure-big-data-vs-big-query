@@ -206,11 +206,10 @@ SELECT COUNT(*) FROM azuron_1942372571023859.default.nyc_taxis_2016;
 Test 1:
 --------
 
-Query Type: SQL Editor UI
-Data Catalog: Unity
-Table Type: Delta
-Queried Through: SQL Warehouse
-SQL Warehouse: Serverless Small
+Tool:               Databricks SQL Editor UI
+Magic Variable:     Not applicable
+Connected Compute:  Severless SQL Warehouse - Small
+Data Catalog:       Unity
 
 run databricks/sql_warehouse/nyc_taxi_data_complete.sql
 
@@ -234,11 +233,10 @@ It also turns off after 10 mins by default. Is truely serverless - can't see any
 Test 2:
 --------
 
-Query Type: Spark Python Notebook
-Data Catalog: Unity
-Table Type: Delta
-Queried Through: Compute Cluster
-SQL Warehouse: Serverless Small
+Tool:               Databricks UI Notebook
+Magic Variable:     %python
+Connected Compute:  Cluster
+Data Catalog:       Unity
 
 run databricks/sql_warehouse/spark_python_query.ipynb
 
@@ -255,16 +253,14 @@ av. 4717ms
 Test 3:
 --------
 
-Query Type: Spark SQL Notebook
-Data Catalog: Unity
-Table Type: Delta
-Queried Through: Compute Cluster
-SQL Warehouse: Serverless Small
+Tool:               Databricks UI Notebook
+Magic Variable:     %sql
+Connected Compute:  Cluster
+Data Catalog:       Unity
 
 run databricks/sql_warehouse/spark_sql_query.ipynb
 
 >>> first 8062ms
-
 276ms
 335ms
 288ms
