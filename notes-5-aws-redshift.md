@@ -33,7 +33,7 @@ Observations
 - Redshift is just a SQL warehouse it brings nothing else.
 - Redshift has it's own SQL dialect, close to BQ, minimal changes on sample query, but changes nonetheless.
 - Redshift has capability to run Redshift SQL queries, and will have an API to do so too.
-- Good scaling optinos on Redshift. We went with HALF the default (128RPU), so 64RPU. Can go to 
+- Good scaling optinos on Redshift. We went with HALF the default (128RPU), so 64RPU. Can go to 1024RPU.
 - Spark SQL can only be run with a partnered AWS service like Glue, EMR or Sagemaker.
 - Those tools are complex and take a long time to orient to become productive.
 - We focussed on AWS Glue. It can run Spark SQL or Spark Notebooks, but it's heavily wrapped in AWS Glue. None of that is hidden from us.
