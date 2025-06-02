@@ -212,3 +212,29 @@ SQL Warehouse: Pro Small
 363ms
 
 av. 406ms   << the absolute fastest of all big data tech and variations
+
+Remote Spark Session Testing (Must have UC enabled)
+
+Run databrick-connect-remote-spark.py
+
+Laptop
+
+0.9245 secs
+1.0721 secs
+1.2452 secs
+0.9326 secs
+0.9236 secs
+0.6340 secs
+
+Av. 0.9553 secs
+
+Server-Side Notebook
+
+0.5506 secs
+0.5561 secs
+0.5194 secs
+0.5274 secs
+0.4990 secs
+0.5128 secs
+
+0.5276 secs
